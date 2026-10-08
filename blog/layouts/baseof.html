@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="{{ .Language.Lang }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Title }} | Garageview.ai</title>
+<meta name="description" content="{{ .Description }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">{{ if eq .Language.Lang "en" }}<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">{{ end }}{{ end }}
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ .Title }}"><meta property="og:description" content="{{ .Description }}"><meta property="og:url" content="{{ .Permalink }}"><meta property="og:image" content="https://garageview.ai/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.png">
+{{ $css := resources.Get "guides.css" | resources.Copy "guides-assets/style.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ $reading := resources.Get "reading.css" | resources.Copy "guides-assets/reading.css" | minify | fingerprint }}<link rel="stylesheet" href="{{ $reading.RelPermalink }}">
+</head>
+<body>
+<a class="skip" href="#main">{{ i18n "skip" }}</a>
+<header><a class="brand" href="/{{ .Language.Lang }}"><img src="/logo.png?v=2" width="172" height="48" alt="Garageview.ai"></a><nav><a href="/{{ .Language.Lang }}/guides/">{{ i18n "guides" }}</a><a class="button" href="/collections">{{ i18n "start" }} <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">{{ block "main" . }}{{ end }}</main>
+<footer><div><strong>Garageview.ai</strong><p>{{ i18n "footer" }}</p></div><nav aria-label="{{ i18n "languages" }}">{{ range .AllTranslations }}<a href="{{ .RelPermalink }}" lang="{{ .Language.Lang }}" hreflang="{{ .Language.Lang }}"{{ if eq $.Language.Lang .Language.Lang }} aria-current="page"{{ end }}>{{ .Language.Label }}</a>{{ end }}</nav></footer>
+</body></html>

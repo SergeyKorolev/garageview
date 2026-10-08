@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # Must cover Sidekiq worst case: 5 default-queue jobs each holding a
+  # connection plus a 5-thread AI pool (ParallelMap) holding one per task
+  # through long OpenAI calls, plus 2 scraper-capsule threads.
+  pool: <%= ENV.fetch("DB_POOL") { 35 } %>
+
+development:
+  <<: *default
+  database: garageview_development
+
+test:
+  <<: *default
+  database: garageview_test
+
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

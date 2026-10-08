@@ -1,0 +1,114 @@
+<%# Car detail print page %>
+<% if @car.photos&.any? %>
+  <div style="margin-bottom: 16px;">
+    <img src="<%= @car.photos.first %>" alt="" style="width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px;" />
+    <% if @car.photos.size > 1 %>
+      <div style="display: flex; gap: 6px; margin-top: 6px; overflow: hidden;">
+        <% @car.photos[1..4].each do |photo| %>
+          <img src="<%= photo %>" alt="" style="width: 120px; height: 80px; object-fit: cover; border-radius: 6px; flex-shrink: 0;" />
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<h1><%= @car.title %></h1>
+<div class="price"><%= @car.price_cents ? number_to_currency(@car.price_cents / 100.0, unit: "€", precision: 0, format: "%n %u") : "" %></div>
+
+<div class="specs">
+  <% [
+    @car.mileage_km ? "#{number_with_delimiter(@car.mileage_km)} km" : nil,
+    @car.first_registration.present? ? @car.first_registration : nil,
+    @car.power_kw ? "#{@car.power_kw} kW (#{(@car.power_kw * 1.36).round} PS)" : nil,
+    @car.fuel_type.present? ? @car.fuel_type : nil,
+    @car.transmission.present? ? @car.transmission : nil,
+  ].compact.each do |spec| %>
+    <span class="spec-chip"><%= spec %></span>
+  <% end %>
+</div>
+
+<% if @car.seller_name.present? %>
+  <div class="meta" style="margin-bottom: 16px;">
+    <strong><%= @car.seller_name %></strong>
+    <% if @car.seller_address.present? %> &middot; <%= @car.seller_address %><% end %>
+  </div>
+<% end %>
+
+<%# AI Analysis %>
+<% analysis = @ai_explanation || @ai_analysis %>
+<% if analysis.present? && (analysis["verdict"] || analysis["summary"]).present? %>
+  <div class="section">
+    <h2>AI Analysis</h2>
+    <p style="font-size: 13px; color: #374151; line-height: 1.7; margin-bottom: 12px;"><%= analysis["verdict"] || analysis["summary"] %></p>
+
+    <div class="two-col">
+      <% if analysis["pros"]&.any? %>
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #16a34a; margin-bottom: 4px; text-transform: uppercase;">Strengths</div>
+          <% analysis["pros"].each do |pro| %>
+            <div class="pro">+ <%= pro %></div>
+          <% end %>
+        </div>
+      <% end %>
+      <% if analysis["cons"]&.any? %>
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #dc2626; margin-bottom: 4px; text-transform: uppercase;">Weaknesses</div>
+          <% analysis["cons"].each do |con| %>
+            <div class="con">&minus; <%= con %></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if analysis["red_flags"]&.any? %>
+      <div style="margin-top: 8px;">
+        <% analysis["red_flags"].each do |flag| %>
+          <div class="flag">&#9888; <%= flag %></div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Negotiation Points %>
+<% if analysis&.dig("negotiation_points")&.any? %>
+  <div class="section">
+    <h2>Negotiation Leverage</h2>
+    <% analysis["negotiation_points"].each do |point| %>
+      <div style="font-size: 12px; color: #374151; margin-bottom: 3px;">&bull; <%= point %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Test Drive Checklist %>
+<% if analysis&.dig("test_drive_checklist")&.any? %>
+  <div class="section">
+    <h2>Test Drive Checklist</h2>
+    <% analysis["test_drive_checklist"].each do |item| %>
+      <div style="font-size: 12px; color: #374151; margin-bottom: 3px;">&#9744; <%= item %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Technical Specs %>
+<% if @attributes.any? %>
+  <div class="section">
+    <h2>Technical Specifications</h2>
+    <table>
+      <% @attributes.first(25).each do |key, value| %>
+        <tr><td><%= key %></td><td><%= value %></td></tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>
+
+<%# Features %>
+<% if @features.any? %>
+  <div class="section">
+    <h2>Equipment (<%= @features.size %>)</h2>
+    <div class="features">
+      <% @features.each do |feature| %>
+        <span class="feature"><%= feature %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

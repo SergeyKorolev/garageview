@@ -1,0 +1,47 @@
+@import "tailwindcss";
+@import "swiper/css" layer(components);
+@import "swiper/css/navigation" layer(components);
+@import "swiper/css/pagination" layer(components);
+@import "maplibre-gl/dist/maplibre-gl.css" layer(components);
+
+@source "../../javascript/**/*.{ts,tsx}";
+@source "../../views/**/*.{erb,html}";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Photo carousel: white controls, visible only on hover */
+.photo-carousel .swiper-button-next,
+.photo-carousel .swiper-button-prev {
+  color: white !important;
+  opacity: 0;
+  transition: opacity 0.2s;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+.photo-carousel .swiper-button-next::after,
+.photo-carousel .swiper-button-prev::after {
+  font-size: 18px !important;
+}
+.photo-carousel:hover .swiper-button-next,
+.photo-carousel:hover .swiper-button-prev {
+  opacity: 0.8;
+}
+.photo-carousel .swiper-button-next:hover,
+.photo-carousel .swiper-button-prev:hover {
+  opacity: 1;
+}
+
+.photo-carousel .swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0;
+  transition: opacity 0.2s;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+.photo-carousel:hover .swiper-pagination-bullet {
+  opacity: 0.6;
+}
+.photo-carousel .swiper-pagination-bullet-active {
+  opacity: 0 !important;
+}
+.photo-carousel:hover .swiper-pagination-bullet-active {
+  opacity: 1 !important;
+}

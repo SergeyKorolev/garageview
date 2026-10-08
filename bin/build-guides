@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+require "fileutils"
+require "json"
+require "nokogiri"
+
+root = File.expand_path("..", __dir__)
+Dir.chdir(root)
+locales = %w[en de fr es it pl uk].freeze
+output = File.join(root, "tmp/blog-public")
+FileUtils.rm_rf(output)
+hugo = ENV.fetch("HUGO_BIN", "hugo")
+abort "Hugo build failed" unless system(hugo, "--source", "blog", "--destination", output, "--printI18nWarnings", "--panicOnWarning")
+
+# Validate the generated pages before replacing the last successful public build.
+pages = locales.flat_map { |locale| Dir.glob("#{output}/#{locale}/guides/**/index.html") }
+abort "No guides generated" if pages.empty?
+counts = locales.map { |locale| pages.count { |path| path.include?("/#{locale}/guides/") } }
+abort "Languages have incomplete article sets: #{counts}" unless counts.uniq.length == 1 && counts.first > 1
+entries = pages.map do |path|
+  html = Nokogiri::HTML(File.read(path))
+  relative = path.delete_prefix(output).delete_suffix("index.html")
+  canonical = "https://garageview.ai#{relative}"
+  abort "Missing title or description: #{relative}" if html.at_css("title")&.text.to_s.empty? || html.at_css('meta[name="description"]')&.[]("content").to_s.empty?
+  abort "Invalid heading: #{relative}" unless html.css("h1").length == 1
+  if html.at_css("article.post")
+    hero = html.at_css(".article-figure img")
+    abort "Missing article illustration or alt text: #{relative}" unless hero && !hero["alt"].to_s.strip.empty?
+    abort "Missing illustration file: #{relative}" unless File.file?("#{output}#{hero['src']}")
+    abort "Missing key takeaways: #{relative}" unless html.css(".takeaways li").length >= 3
+    abort "Missing contents: #{relative}" if html.css(".contents nav a").empty?
+    html.css(".contents nav a").each do |link|
+      anchor = link["href"].delete_prefix("#")
+      abort "Broken contents link: #{relative}##{anchor}" unless html.css("[id]").any? { |node| node["id"] == anchor }
+    end
+  end
+  abort "Invalid canonical: #{relative}" unless html.at_css('link[rel="canonical"]')&.[]("href") == canonical
+  alternates = html.css("link[hreflang]")
+  abort "Incomplete translations: #{relative}" unless alternates.map { |link| link["hreflang"] }.sort == (locales + [ "x-default" ]).sort
+  alternates.each do |link|
+    target = link["href"].delete_prefix("https://garageview.ai")
+    abort "Missing translation: #{target}" unless File.file?("#{output}#{target}index.html")
+  end
+  html.css('a[href]').each do |link|
+    target = link["href"]
+    next unless target.match?(%r{\A/(en|de|fr|es|it|pl|uk)/guides/})
+    abort "Broken guide link: #{target}" unless File.file?("#{output}#{target}index.html")
+  end
+  [ canonical, alternates.map { |link| [ link["hreflang"], link["href"] ] } ]
+end
+
+locales.each do |locale|
+  destination = "public/#{locale}/guides"
+  FileUtils.rm_rf(destination)
+  FileUtils.mkdir_p("public/#{locale}")
+  FileUtils.cp_r("#{output}/#{locale}/guides", destination)
+end
+FileUtils.rm_rf("public/guides-assets")
+FileUtils.cp_r("#{output}/guides-assets", "public/guides-assets")
+sitemap = Nokogiri::XML::Builder.new(encoding: "UTF-8") do |xml|
+  xml.urlset("xmlns" => "http://www.sitemaps.org/schemas/sitemap/0.9", "xmlns:xhtml" => "http://www.w3.org/1999/xhtml") do
+    entries.each do |canonical, alternates|
+      xml.url do
+        xml.loc canonical
+        alternates.each { |language, href| xml["xhtml"].link(rel: "alternate", hreflang: language, href: href) }
+      end
+    end
+  end
+end
+File.write("public/guides-sitemap.xml", sitemap.to_xml)
+puts "Validated and published #{pages.length} guide pages across #{locales.length} languages."

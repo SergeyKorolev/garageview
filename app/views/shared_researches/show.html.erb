@@ -1,0 +1,213 @@
+<div style="min-height: 100vh; background-color: #0b1120; color: #e5e7eb;">
+  <%# Header %>
+  <header style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto;">
+    <a href="/" style="text-decoration: none;">
+      <img src="/logo-dark.png?v=3" alt="GarageView.ai" style="height: 36px; width: auto;" />
+    </a>
+    <a href="/en" style="font-size: 13px; color: #22c55e; text-decoration: none; font-weight: 600; padding: 8px 20px; border: 1px solid #22c55e; border-radius: 8px;">
+      <%= @ui[:create_comparison] %>
+    </a>
+  </header>
+
+  <main style="max-width: 900px; margin: 0 auto; padding: 20px 24px 80px;">
+    <%# Title %>
+    <div style="margin-bottom: 32px;">
+      <h1 style="font-size: 28px; font-weight: 800; color: white; margin: 0 0 8px; line-height: 1.2;">
+        <%= @research.title || "AI Car Research" %>
+      </h1>
+      <div style="font-size: 13px; color: #6b7280;">
+        <%= @ui[:generated_on] %> <%= @research.created_at.strftime("%B %d, %Y") %> &middot; <%= @cars.size %> <%= @ui[:cars_analyzed_count] %>
+      </div>
+    </div>
+
+    <%# Analyzed Cars %>
+    <% if @cars.any? %>
+      <div style="margin-bottom: 32px;">
+        <h2 style="font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">
+          <%= @ui[:cars_analyzed] %>
+        </h2>
+        <div style="border-radius: 12px; border: 1px solid #1f2937; overflow: hidden;">
+          <% @cars.each_with_index do |car, i| %>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-bottom: <%= i < @cars.size - 1 ? '1px solid #1f2937' : 'none' %>; background-color: <%= i.odd? ? '#0d1117' : 'transparent' %>;">
+              <% if car.photos&.first %>
+                <img src="<%= car.photos.first %>" alt="" style="width: 56px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0;" loading="lazy" />
+              <% else %>
+                <div style="width: 56px; height: 40px; border-radius: 6px; background-color: #1f2937; flex-shrink: 0;"></div>
+              <% end %>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 14px; font-weight: 600; color: #e5e7eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  <%= car.title %>
+                </div>
+                <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">
+                  <%= [car.seller_name, car.seller_address].compact.join(" \u00B7 ") %>
+                </div>
+              </div>
+              <div style="text-align: right; flex-shrink: 0;">
+                <div style="font-size: 14px; font-weight: 700; color: #60a5fa;">
+                  <%= car.price_cents ? number_to_currency(car.price_cents / 100.0, unit: "\u20AC", precision: 0, format: "%n %u") : "\u2014" %>
+                </div>
+                <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">
+                  <%= [car.mileage_km ? "#{number_with_delimiter(car.mileage_km)} km" : nil, car.power_kw ? "#{car.power_kw} kW" : nil].compact.join(" \u00B7 ") %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Final Ranking %>
+    <% if @result["ranking"]&.any? %>
+      <div style="margin-bottom: 28px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:final_ranking] %></h3>
+        <% @result["ranking"].each_with_index do |r, i| %>
+          <div style="display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start;">
+            <div style="width: 36px; min-width: 36px; height: 36px; min-height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; flex-shrink: 0; color: white; background-color: <%= i == 0 ? '#22c55e' : i == 1 ? '#3b82f6' : '#4b5563' %>; line-height: 1;">
+              #<%= r["place"] %>
+            </div>
+            <div>
+              <div style="font-size: 15px; font-weight: 700; color: white;">
+                <%= r["car_title"] %>
+              </div>
+              <div style="font-size: 13px; color: #9ca3af; margin-top: 4px; line-height: 1.6;">
+                <%= r["reason"] %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Bottom Line %>
+    <% if @result["bottom_line"].present? %>
+      <div style="padding: 16px 20px; border-radius: 12px; background-color: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); margin-bottom: 28px;">
+        <div style="font-size: 15px; font-weight: 700; color: #22c55e; margin-bottom: 8px;"><%= @ui[:bottom_line] %></div>
+        <div style="font-size: 15px; color: #d1d5db; line-height: 1.7;"><%= @result["bottom_line"] %></div>
+      </div>
+    <% end %>
+
+    <%# Per-Car Strengths & Weaknesses %>
+    <% if @result["per_car_analysis"]&.any? %>
+      <div style="margin-bottom: 28px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:per_car_analysis] %></h3>
+        <% @result["per_car_analysis"].each do |car| %>
+          <div style="margin-bottom: 16px; padding: 14px 16px; border-radius: 10px; border: 1px solid #1f2937; background-color: #0d1117;">
+            <div style="font-size: 14px; font-weight: 700; color: #60a5fa; margin-bottom: 10px;">
+              <%= car["car_title"] || "Car ##{car["car_number"]}" %>
+            </div>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+              <% if car["strengths"]&.any? %>
+                <div style="flex: 1 1 200px; min-width: 0;">
+                  <% car["strengths"].each do |s| %>
+                    <div style="font-size: 12px; color: #34d399; margin-bottom: 3px;">+ <%= s %></div>
+                  <% end %>
+                </div>
+              <% end %>
+              <% if car["weaknesses"]&.any? %>
+                <div style="flex: 1 1 200px; min-width: 0;">
+                  <% car["weaknesses"].each do |w| %>
+                    <div style="font-size: 12px; color: #f87171; margin-bottom: 3px;">&minus; <%= w %></div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <% if car["red_flags"]&.any? %>
+              <div style="margin-top: 6px;">
+                <% car["red_flags"].each do |f| %>
+                  <div style="font-size: 12px; color: #fbbf24; margin-bottom: 3px;">&#9888; <%= f %></div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Description Audit %>
+    <% if @result["description_audit"]&.any? %>
+      <div style="margin-bottom: 28px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:description_audit] %></h3>
+        <% @result["description_audit"].each do |audit| %>
+          <div style="margin-bottom: 14px;">
+            <div style="font-size: 14px; font-weight: 700; color: #60a5fa; margin-bottom: 6px;">
+              <%= audit["car_title"] || "Car ##{audit["car_number"]}" %>
+            </div>
+            <% if audit["findings"]&.any? %>
+              <% audit["findings"].each do |f| %>
+                <div style="font-size: 13px; color: #d1d5db; margin-bottom: 4px; padding-left: 14px;">
+                  &bull; <%= f %>
+                </div>
+              <% end %>
+            <% else %>
+              <div style="font-size: 13px; color: #6b7280; padding-left: 14px;"><%= @ui[:no_discrepancies] %></div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Comparison Sections %>
+    <% (@result["comparison_sections"] || []).each do |section| %>
+      <div style="margin-bottom: 28px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= section["title"] %></h3>
+        <% if section["overview"].present? %>
+          <div style="font-size: 13px; color: #d1d5db; line-height: 1.6; margin-bottom: 12px;"><%= section["overview"] %></div>
+        <% end %>
+        <% if section["per_car"]&.any? %>
+          <% section["per_car"].each do |car| %>
+            <div style="margin-bottom: 10px;">
+              <% label = @result["car_labels"]&.find { |l| l["car_number"] == car["car_number"] } %>
+              <div style="font-size: 14px; font-weight: 700; color: #60a5fa; margin-bottom: 4px;">
+                <%= label ? label["car_title"] : "Car ##{car["car_number"]}" %>
+              </div>
+              <% (car["points"] || []).each do |p| %>
+                <div style="font-size: 13px; color: #d1d5db; margin-bottom: 3px; padding-left: 14px;">&bull; <%= p %></div>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+        <% if section["verdict"].present? %>
+          <div style="font-size: 13px; font-weight: 600; color: #34d399; margin-top: 8px; border-top: 1px solid #374151; padding-top: 10px;">
+            &#10003; <%= section["verdict"] %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Hidden Concerns %>
+    <% if @result["hidden_concerns"]&.any? %>
+      <div style="margin-bottom: 28px;">
+        <h3 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:hidden_concerns] %></h3>
+        <% @result["hidden_concerns"].each do |c| %>
+          <div style="font-size: 13px; color: #fbbf24; margin-bottom: 6px;">&#9888; <%= c %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# CTA %>
+    <div style="margin-top: 48px; text-align: center; padding: 40px 24px; border-radius: 16px; border: 1px solid #1f2937; background: linear-gradient(135deg, rgba(34,197,94,0.05), rgba(37,99,235,0.05));">
+      <div style="font-size: 24px; font-weight: 800; color: white; margin-bottom: 10px;">
+        <%= @ui[:compare_title] %>
+      </div>
+      <div style="font-size: 15px; color: #9ca3af; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto;">
+        <%= @ui[:compare_desc] %>
+      </div>
+      <a href="/en" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; font-size: 16px; font-weight: 600; color: white; background-color: #22c55e; border: none; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 24px rgba(34,197,94,0.3);">
+        <%= @ui[:get_started] %>
+      </a>
+    </div>
+  </main>
+
+  <%# Footer %>
+  <footer style="padding: 24px; text-align: center; border-top: 1px solid #1f2937;">
+    <div style="font-size: 12px; color: #6b7280;">
+      garageview.ai &middot; <%= @ui[:built_with] %> &middot;
+      <a href="/en/privacy" style="color: #6b7280; text-decoration: underline;">Privacy</a> &middot;
+      <a href="/en/terms" style="color: #6b7280; text-decoration: underline;">Terms</a>
+    </div>
+  </footer>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>

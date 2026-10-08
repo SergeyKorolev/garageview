@@ -1,0 +1,50 @@
+{
+  "guides": {
+    "other": "Car-buying guides"
+  },
+  "eyebrow": {
+    "other": "Find. Collect. Choose."
+  },
+  "start": {
+    "other": "Open Garageview"
+  },
+  "read": {
+    "other": "Read guide"
+  },
+  "skip": {
+    "other": "Skip to content"
+  },
+  "languages": {
+    "other": "Languages"
+  },
+  "footer": {
+    "other": "Bring your car search together."
+  },
+  "ctaTitle": {
+    "other": "Keep your candidates in one place"
+  },
+  "ctaText": {
+    "other": "Save listings from mobile.de, AutoScout24 and Otomoto in Garageview collections, then compare the details and questions that matter to you."
+  },
+  "editorial": {
+    "other": "Published by Garageview.ai, with AI-assisted drafting and translation. These guides explain our suggested buying workflow; they are not vehicle inspections or independent marketplace rankings."
+  },
+  "related": {
+    "other": "Continue reading"
+  },
+  "updated": {
+    "other": "Updated"
+  },
+  "minutes": {
+    "other": "min read"
+  },
+  "takeaways": {
+    "other": "What you’ll learn"
+  },
+  "contents": {
+    "other": "On this page"
+  },
+  "examples": {
+    "other": "The worked examples are fictional. Use the worksheets with your own listings and quotations; example amounts are not market prices."
+  }
+}

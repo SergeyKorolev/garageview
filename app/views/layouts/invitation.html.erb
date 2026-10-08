@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Garageview.ai</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <%= stylesheet_link_tag "application" %>
+  </head>
+
+  <body class="bg-gray-950 text-white min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full mx-auto px-6">
+      <%= yield %>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Garageview.ai — Your AI car expert",
+  "version": "1.2.2",
+  "description": "Turns chaotic used-car listings from mobile.de into an AI-powered buying workspace.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.mobile.de/*",
+    "https://suchen.mobile.de/*",
+    "https://garageview.ai/*",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.mobile.de/*", "*://suchen.mobile.de/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["*://www.mobile.de/*", "*://suchen.mobile.de/*"]
+    }
+  ]
+}

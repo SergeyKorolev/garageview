@@ -1,0 +1,50 @@
+{
+  "guides": {
+    "other": "Guías para comprar coche"
+  },
+  "eyebrow": {
+    "other": "Encuentra. Reúne. Elige."
+  },
+  "start": {
+    "other": "Abrir Garageview"
+  },
+  "read": {
+    "other": "Leer guía"
+  },
+  "skip": {
+    "other": "Ir al contenido"
+  },
+  "languages": {
+    "other": "Idiomas"
+  },
+  "footer": {
+    "other": "Tu búsqueda de coche, en un solo lugar."
+  },
+  "ctaTitle": {
+    "other": "Reúne tus candidatos en un solo lugar"
+  },
+  "ctaText": {
+    "other": "Guarda anuncios de mobile.de, AutoScout24 y Otomoto en colecciones de Garageview y compara los detalles y las preguntas que te importan."
+  },
+  "editorial": {
+    "other": "Publicado por Garageview.ai, con ayuda de IA en la redacción y traducción. Estas guías explican nuestro proceso de compra propuesto; no son inspecciones de vehículos ni clasificaciones independientes de portales."
+  },
+  "related": {
+    "other": "Sigue leyendo"
+  },
+  "updated": {
+    "other": "Actualizado"
+  },
+  "minutes": {
+    "other": "min de lectura"
+  },
+  "takeaways": {
+    "other": "Qué aprenderás"
+  },
+  "contents": {
+    "other": "En esta página"
+  },
+  "examples": {
+    "other": "Los ejemplos son ficticios. Completa las plantillas con tus propios anuncios y presupuestos; las cantidades ilustrativas no son precios de mercado."
+  }
+}

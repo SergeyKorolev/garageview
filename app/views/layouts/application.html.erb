@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= @page_title || content_for(:title) || "Garageview.ai — Your AI car expert" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="<%= @page_description || "Turns chaotic used-car listings from mobile.de into an AI-powered buying workspace. Store cars into collections, compare them side-by-side, spot red flags, and identify the best-value deal." %>">
+    <meta name="keywords" content="used cars, mobile.de, AI car comparison, car buying, car analysis, vehicle comparison, car search, garageview">
+    <meta name="author" content="Garageview.ai">
+    <meta name="robots" content="<%= @page_noindex ? 'noindex, nofollow' : 'index, follow' %>">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= @page_title || "Garageview.ai — Your AI car expert" %>">
+    <meta property="og:description" content="<%= @page_description || "Turns chaotic used-car listings from mobile.de into an AI-powered buying workspace. Compare cars side-by-side, spot red flags, and find the best deal." %>">
+    <meta property="og:url" content="<%= @page_canonical || "https://garageview.ai" %>">
+    <meta property="og:image" content="https://garageview.ai/og-image.png">
+    <meta property="og:site_name" content="Garageview.ai">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= @page_title || "Garageview.ai — Your AI car expert" %>">
+    <meta name="twitter:description" content="<%= @page_description || "AI-powered workspace for comparing used cars from mobile.de. Spot red flags, compare specs, find the best deal." %>">
+    <meta name="twitter:image" content="https://garageview.ai/og-image.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="<%= @page_canonical || "https://garageview.ai" %>">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <!-- Cookie Consent (vanilla-cookieconsent v3) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.umd.js" defer></script>
+
+    <!-- Google Analytics (gated by cookie consent) -->
+    <script type="text/plain" data-category="analytics" async src="https://www.googletagmanager.com/gtag/js?id=G-ZLRFVLLGG4"></script>
+    <script type="text/plain" data-category="analytics">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZLRFVLLGG4');
+    </script>
+
+    <!-- PostHog (gated by cookie consent) -->
+    <script type="text/plain" data-category="analytics">
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('<%= ENV.fetch("POSTHOG_API_KEY", "phc_PLACEHOLDER") %>', {
+        api_host: 'https://eu.i.posthog.com',
+        person_profiles: 'identified_only',
+      });
+    </script>
+
+    <!-- Analytics config for frontend -->
+    <script>window.__GV_ANALYTICS_CONFIG__ = { gaId: 'G-ZLRFVLLGG4', posthogKey: '<%= ENV.fetch("POSTHOG_API_KEY", "phc_PLACEHOLDER") %>' };</script>
+
+    <!-- Cookie Consent initialization -->
+    <script defer>
+      window.addEventListener('DOMContentLoaded', function() {
+        if (typeof CookieConsent !== 'undefined') {
+          CookieConsent.run({
+            categories: {
+              necessary: { enabled: true, readOnly: true },
+              analytics: {
+                enabled: false,
+                autoClear: {
+                  cookies: [
+                    { name: /^_ga/ },
+                    { name: /^_gid/ },
+                    { name: /^ph_/ }
+                  ]
+                }
+              }
+            },
+            guiOptions: {
+              consentModal: { layout: 'bar', position: 'bottom' },
+              preferencesModal: { layout: 'box' }
+            },
+            language: {
+              default: 'en',
+              autoDetect: 'document',
+              translations: {
+                en: {
+                  consentModal: { title: 'Cookie Consent', description: 'We use cookies to improve our service. Essential cookies keep things running. Analytics cookies help us understand how you use Garageview.', acceptAllBtn: 'Accept All', acceptNecessaryBtn: 'Essential Only', showPreferencesBtn: 'Cookie Settings' },
+                  preferencesModal: { title: 'Cookie Settings', savePreferencesBtn: 'Save Settings', acceptAllBtn: 'Accept All', acceptNecessaryBtn: 'Essential Only', sections: [{ title: 'Essential Cookies', description: 'Required for the website to function.', linkedCategory: 'necessary' }, { title: 'Analytics Cookies', description: 'Help us understand how visitors use our website.', linkedCategory: 'analytics' }] }
+                },
+                de: {
+                  consentModal: { title: 'Cookie-Einwilligung', description: 'Wir verwenden Cookies, um unseren Service zu verbessern. Notwendige Cookies halten alles am Laufen. Analyse-Cookies helfen uns zu verstehen, wie Sie Garageview nutzen.', acceptAllBtn: 'Alle akzeptieren', acceptNecessaryBtn: 'Nur notwendige', showPreferencesBtn: 'Cookie-Einstellungen' },
+                  preferencesModal: { title: 'Cookie-Einstellungen', savePreferencesBtn: 'Einstellungen speichern', acceptAllBtn: 'Alle akzeptieren', acceptNecessaryBtn: 'Nur notwendige', sections: [{ title: 'Notwendige Cookies', description: 'Erforderlich für die Funktion der Website.', linkedCategory: 'necessary' }, { title: 'Analyse-Cookies', description: 'Helfen uns zu verstehen, wie Besucher unsere Website nutzen.', linkedCategory: 'analytics' }] }
+                },
+                fr: {
+                  consentModal: { title: 'Consentement aux cookies', description: 'Nous utilisons des cookies pour améliorer notre service. Les cookies essentiels assurent le fonctionnement. Les cookies analytiques nous aident à comprendre votre utilisation.', acceptAllBtn: 'Tout accepter', acceptNecessaryBtn: 'Essentiels uniquement', showPreferencesBtn: 'Paramètres des cookies' },
+                  preferencesModal: { title: 'Paramètres des cookies', savePreferencesBtn: 'Enregistrer', acceptAllBtn: 'Tout accepter', acceptNecessaryBtn: 'Essentiels uniquement', sections: [{ title: 'Cookies essentiels', description: 'Nécessaires au fonctionnement du site.', linkedCategory: 'necessary' }, { title: 'Cookies analytiques', description: 'Nous aident à comprendre comment les visiteurs utilisent notre site.', linkedCategory: 'analytics' }] }
+                },
+                es: {
+                  consentModal: { title: 'Consentimiento de cookies', description: 'Usamos cookies para mejorar nuestro servicio. Las cookies esenciales mantienen todo funcionando. Las cookies analíticas nos ayudan a entender cómo usas Garageview.', acceptAllBtn: 'Aceptar todo', acceptNecessaryBtn: 'Solo esenciales', showPreferencesBtn: 'Configuración de cookies' },
+                  preferencesModal: { title: 'Configuración de cookies', savePreferencesBtn: 'Guardar', acceptAllBtn: 'Aceptar todo', acceptNecessaryBtn: 'Solo esenciales', sections: [{ title: 'Cookies esenciales', description: 'Necesarias para el funcionamiento del sitio.', linkedCategory: 'necessary' }, { title: 'Cookies analíticas', description: 'Nos ayudan a entender cómo los visitantes usan nuestro sitio.', linkedCategory: 'analytics' }] }
+                },
+                it: {
+                  consentModal: { title: 'Consenso ai cookie', description: 'Utilizziamo i cookie per migliorare il nostro servizio. I cookie essenziali mantengono tutto funzionante. I cookie analitici ci aiutano a capire come usi Garageview.', acceptAllBtn: 'Accetta tutto', acceptNecessaryBtn: 'Solo essenziali', showPreferencesBtn: 'Impostazioni cookie' },
+                  preferencesModal: { title: 'Impostazioni cookie', savePreferencesBtn: 'Salva', acceptAllBtn: 'Accetta tutto', acceptNecessaryBtn: 'Solo essenziali', sections: [{ title: 'Cookie essenziali', description: 'Necessari per il funzionamento del sito.', linkedCategory: 'necessary' }, { title: 'Cookie analitici', description: 'Ci aiutano a capire come i visitatori usano il nostro sito.', linkedCategory: 'analytics' }] }
+                },
+                pt: {
+                  consentModal: { title: 'Consentimento de cookies', description: 'Usamos cookies para melhorar nosso serviço. Cookies essenciais mantêm tudo funcionando. Cookies analíticos nos ajudam a entender como você usa o Garageview.', acceptAllBtn: 'Aceitar tudo', acceptNecessaryBtn: 'Apenas essenciais', showPreferencesBtn: 'Configurações de cookies' },
+                  preferencesModal: { title: 'Configurações de cookies', savePreferencesBtn: 'Salvar', acceptAllBtn: 'Aceitar tudo', acceptNecessaryBtn: 'Apenas essenciais', sections: [{ title: 'Cookies essenciais', description: 'Necessários para o funcionamento do site.', linkedCategory: 'necessary' }, { title: 'Cookies analíticos', description: 'Nos ajudam a entender como os visitantes usam nosso site.', linkedCategory: 'analytics' }] }
+                },
+                nl: {
+                  consentModal: { title: 'Cookie-toestemming', description: 'We gebruiken cookies om onze service te verbeteren. Essentiële cookies houden alles draaiende. Analytische cookies helpen ons begrijpen hoe je Garageview gebruikt.', acceptAllBtn: 'Alles accepteren', acceptNecessaryBtn: 'Alleen essentieel', showPreferencesBtn: 'Cookie-instellingen' },
+                  preferencesModal: { title: 'Cookie-instellingen', savePreferencesBtn: 'Opslaan', acceptAllBtn: 'Alles accepteren', acceptNecessaryBtn: 'Alleen essentieel', sections: [{ title: 'Essentiële cookies', description: 'Vereist voor de werking van de website.', linkedCategory: 'necessary' }, { title: 'Analytische cookies', description: 'Helpen ons begrijpen hoe bezoekers onze website gebruiken.', linkedCategory: 'analytics' }] }
+                },
+                pl: {
+                  consentModal: { title: 'Zgoda na cookies', description: 'Używamy plików cookie, aby ulepszyć nasz serwis. Niezbędne pliki cookie utrzymują działanie serwisu. Analityczne pliki cookie pomagają nam zrozumieć, jak korzystasz z Garageview.', acceptAllBtn: 'Zaakceptuj wszystkie', acceptNecessaryBtn: 'Tylko niezbędne', showPreferencesBtn: 'Ustawienia cookies' },
+                  preferencesModal: { title: 'Ustawienia cookies', savePreferencesBtn: 'Zapisz', acceptAllBtn: 'Zaakceptuj wszystkie', acceptNecessaryBtn: 'Tylko niezbędne', sections: [{ title: 'Niezbędne cookies', description: 'Wymagane do działania strony.', linkedCategory: 'necessary' }, { title: 'Analityczne cookies', description: 'Pomagają nam zrozumieć, jak odwiedzający korzystają z naszej strony.', linkedCategory: 'analytics' }] }
+                },
+                cs: {
+                  consentModal: { title: 'Souhlas s cookies', description: 'Používáme cookies ke zlepšení našich služeb. Nezbytné cookies zajišťují fungování webu. Analytické cookies nám pomáhají pochopit, jak používáte Garageview.', acceptAllBtn: 'Přijmout vše', acceptNecessaryBtn: 'Pouze nezbytné', showPreferencesBtn: 'Nastavení cookies' },
+                  preferencesModal: { title: 'Nastavení cookies', savePreferencesBtn: 'Uložit', acceptAllBtn: 'Přijmout vše', acceptNecessaryBtn: 'Pouze nezbytné', sections: [{ title: 'Nezbytné cookies', description: 'Nutné pro fungování webu.', linkedCategory: 'necessary' }, { title: 'Analytické cookies', description: 'Pomáhají nám pochopit, jak návštěvníci používají náš web.', linkedCategory: 'analytics' }] }
+                },
+                uk: {
+                  consentModal: { title: 'Згода на cookies', description: 'Ми використовуємо файли cookie для покращення нашого сервісу. Необхідні файли cookie забезпечують роботу сайту. Аналітичні файли cookie допомагають нам зрозуміти, як ви використовуєте Garageview.', acceptAllBtn: 'Прийняти все', acceptNecessaryBtn: 'Лише необхідні', showPreferencesBtn: 'Налаштування cookies' },
+                  preferencesModal: { title: 'Налаштування cookies', savePreferencesBtn: 'Зберегти', acceptAllBtn: 'Прийняти все', acceptNecessaryBtn: 'Лише необхідні', sections: [{ title: 'Необхідні cookies', description: 'Потрібні для роботи сайту.', linkedCategory: 'necessary' }, { title: 'Аналітичні cookies', description: 'Допомагають нам зрозуміти, як відвідувачі використовують наш сайт.', linkedCategory: 'analytics' }] }
+                },
+                da: {
+                  consentModal: { title: 'Cookie-samtykke', description: 'Vi bruger cookies til at forbedre vores service. Nødvendige cookies holder alt kørende. Analysecookies hjælper os med at forstå, hvordan du bruger Garageview.', acceptAllBtn: 'Acceptér alle', acceptNecessaryBtn: 'Kun nødvendige', showPreferencesBtn: 'Cookie-indstillinger' },
+                  preferencesModal: { title: 'Cookie-indstillinger', savePreferencesBtn: 'Gem', acceptAllBtn: 'Acceptér alle', acceptNecessaryBtn: 'Kun nødvendige', sections: [{ title: 'Nødvendige cookies', description: 'Påkrævet for at websitet kan fungere.', linkedCategory: 'necessary' }, { title: 'Analysecookies', description: 'Hjælper os med at forstå, hvordan besøgende bruger vores websted.', linkedCategory: 'analytics' }] }
+                },
+                sv: {
+                  consentModal: { title: 'Cookie-samtycke', description: 'Vi använder cookies för att förbättra vår tjänst. Nödvändiga cookies håller allt igång. Analyticscookies hjälper oss förstå hur du använder Garageview.', acceptAllBtn: 'Acceptera alla', acceptNecessaryBtn: 'Endast nödvändiga', showPreferencesBtn: 'Cookie-inställningar' },
+                  preferencesModal: { title: 'Cookie-inställningar', savePreferencesBtn: 'Spara', acceptAllBtn: 'Acceptera alla', acceptNecessaryBtn: 'Endast nödvändiga', sections: [{ title: 'Nödvändiga cookies', description: 'Krävs för att webbplatsen ska fungera.', linkedCategory: 'necessary' }, { title: 'Analyticscookies', description: 'Hjälper oss förstå hur besökare använder vår webbplats.', linkedCategory: 'analytics' }] }
+                },
+                nb: {
+                  consentModal: { title: 'Cookie-samtykke', description: 'Vi bruker informasjonskapsler for å forbedre tjenesten vår. Nødvendige informasjonskapsler holder alt i gang. Analysekapsler hjelper oss å forstå hvordan du bruker Garageview.', acceptAllBtn: 'Godta alle', acceptNecessaryBtn: 'Kun nødvendige', showPreferencesBtn: 'Cookie-innstillinger' },
+                  preferencesModal: { title: 'Cookie-innstillinger', savePreferencesBtn: 'Lagre', acceptAllBtn: 'Godta alle', acceptNecessaryBtn: 'Kun nødvendige', sections: [{ title: 'Nødvendige informasjonskapsler', description: 'Nødvendig for at nettstedet skal fungere.', linkedCategory: 'necessary' }, { title: 'Analysekapsler', description: 'Hjelper oss å forstå hvordan besøkende bruker nettstedet vårt.', linkedCategory: 'analytics' }] }
+                }
+              }
+            }
+          });
+        }
+      });
+    </script>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body class="bg-gray-50 dark:bg-gray-950">
+    <div id="root"></div>
+  </body>
+</html>

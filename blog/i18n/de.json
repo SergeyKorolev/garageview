@@ -1,0 +1,50 @@
+{
+  "guides": {
+    "other": "Ratgeber zum Autokauf"
+  },
+  "eyebrow": {
+    "other": "Finden. Sammeln. Entscheiden."
+  },
+  "start": {
+    "other": "Garageview öffnen"
+  },
+  "read": {
+    "other": "Ratgeber lesen"
+  },
+  "skip": {
+    "other": "Zum Inhalt"
+  },
+  "languages": {
+    "other": "Sprachen"
+  },
+  "footer": {
+    "other": "Ihre Autosuche an einem Ort."
+  },
+  "ctaTitle": {
+    "other": "Ihre Kandidaten an einem Ort"
+  },
+  "ctaText": {
+    "other": "Speichern Sie Inserate von mobile.de, AutoScout24 und Otomoto in Garageview-Sammlungen und vergleichen Sie wichtige Details und offene Fragen."
+  },
+  "editorial": {
+    "other": "Veröffentlicht von Garageview.ai, mit KI-Unterstützung bei Entwurf und Übersetzung. Diese Ratgeber beschreiben unseren vorgeschlagenen Kaufablauf; sie sind keine Fahrzeugprüfungen oder unabhängigen Portalrankings."
+  },
+  "related": {
+    "other": "Weiterlesen"
+  },
+  "updated": {
+    "other": "Aktualisiert"
+  },
+  "minutes": {
+    "other": "Min. Lesezeit"
+  },
+  "takeaways": {
+    "other": "Das erfahren Sie"
+  },
+  "contents": {
+    "other": "Auf dieser Seite"
+  },
+  "examples": {
+    "other": "Die durchgerechneten Beispiele sind fiktiv. Füllen Sie die Vorlagen mit Ihren eigenen Anzeigen und Angeboten aus; Beispielbeträge sind keine Marktpreise."
+  }
+}

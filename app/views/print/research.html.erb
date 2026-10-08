@@ -1,0 +1,124 @@
+<%# Deep Research print page %>
+<h1><%= @research.title || "Deep Research" %></h1>
+<div class="meta" style="margin-bottom: 20px;"><%= @research.created_at.strftime("%B %d, %Y %H:%M") %> &middot; <%= @cars.size %> cars analyzed</div>
+
+<%# Analyzed Cars %>
+<% if @cars.any? %>
+  <div class="section">
+    <h2>Cars Analyzed</h2>
+    <% @cars.each do |car| %>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+        <% if car.photos&.first %>
+          <img src="<%= car.photos.first %>" alt="" style="width: 80px; height: 54px; border-radius: 6px; object-fit: cover; flex-shrink: 0;" />
+        <% else %>
+          <div style="width: 80px; height: 54px; border-radius: 6px; background: #e5e7eb; flex-shrink: 0;"></div>
+        <% end %>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-weight: 600; color: #111827; font-size: 13px;"><%= car.title %></div>
+          <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">
+            <%= [car.mileage_km ? "#{number_with_delimiter(car.mileage_km)} km" : nil, car.first_registration, car.power_kw ? "#{car.power_kw} kW" : nil].compact.join(" · ") %>
+          </div>
+        </div>
+        <div style="text-align: right; color: #2563eb; font-weight: 700; font-size: 13px; flex-shrink: 0;">
+          <%= car.price_cents ? number_to_currency(car.price_cents / 100.0, unit: "€", precision: 0, format: "%n %u") : "" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Final Ranking %>
+<% if @result["ranking"]&.any? %>
+  <div class="section">
+    <h2>Final Ranking</h2>
+    <% @result["ranking"].each_with_index do |r, i| %>
+      <div style="display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start;">
+        <div class="ranking-badge <%= i == 0 ? 'rank-1' : i == 1 ? 'rank-2' : 'rank-3' %>">#<%= r["place"] %></div>
+        <div style="flex: 1;">
+          <div style="font-size: 13px; font-weight: 700;"><%= r["car_title"] %></div>
+          <div style="font-size: 12px; color: #6b7280;"><%= r["reason"] %></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Bottom Line %>
+<% if @result["bottom_line"].present? %>
+  <div class="section" style="padding: 12px 16px; border-radius: 8px; background: #f0fdf4; border: 1px solid #bbf7d0;">
+    <div style="font-size: 13px; font-weight: 700; color: #16a34a; margin-bottom: 4px;">Bottom Line</div>
+    <div style="font-size: 13px; color: #374151; line-height: 1.7;"><%= @result["bottom_line"] %></div>
+  </div>
+<% end %>
+
+<%# Per-Car Strengths & Weaknesses %>
+<% if @result["per_car_analysis"]&.any? %>
+  <div class="section">
+    <h2>Per-Car Strengths & Weaknesses</h2>
+    <% @result["per_car_analysis"].each do |car| %>
+      <div style="margin-bottom: 14px; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 8px;">
+        <h3><%= car["car_title"] || "Car ##{car["car_number"]}" %></h3>
+        <div class="two-col">
+          <% if car["strengths"]&.any? %>
+            <div><% car["strengths"].each do |s| %><div class="pro">+ <%= s %></div><% end %></div>
+          <% end %>
+          <% if car["weaknesses"]&.any? %>
+            <div><% car["weaknesses"].each do |w| %><div class="con">&minus; <%= w %></div><% end %></div>
+          <% end %>
+        </div>
+        <% if car["red_flags"]&.any? %>
+          <% car["red_flags"].each do |f| %><div class="flag">&#9888; <%= f %></div><% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Description Audit %>
+<% if @result["description_audit"]&.any? %>
+  <div class="section">
+    <h2>Description vs Specs Audit</h2>
+    <% @result["description_audit"].each do |audit| %>
+      <div style="margin-bottom: 10px;">
+        <h3><%= audit["car_title"] || "Car ##{audit["car_number"]}" %></h3>
+        <% if audit["findings"]&.any? %>
+          <% audit["findings"].each do |f| %><div style="font-size: 12px; color: #374151; padding-left: 12px;">&bull; <%= f %></div><% end %>
+        <% else %>
+          <div style="font-size: 12px; color: #6b7280; padding-left: 12px;">No discrepancies found</div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Comparison Sections %>
+<% (@result["comparison_sections"] || []).each do |section| %>
+  <div class="section">
+    <h2><%= section["title"] %></h2>
+    <% if section["overview"].present? %>
+      <div style="font-size: 12px; color: #374151; line-height: 1.6; margin-bottom: 8px;"><%= section["overview"] %></div>
+    <% end %>
+    <% (section["per_car"] || []).each do |car| %>
+      <div style="margin-bottom: 8px;">
+        <% label = @result["car_labels"]&.find { |l| l["car_number"] == car["car_number"] } %>
+        <h3><%= label ? label["car_title"] : "Car ##{car["car_number"]}" %></h3>
+        <% (car["points"] || []).each do |p| %>
+          <div style="font-size: 12px; color: #374151; padding-left: 12px;">&bull; <%= p %></div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if section["verdict"].present? %>
+      <div style="font-size: 12px; font-weight: 600; color: #16a34a; margin-top: 6px; border-top: 1px solid #e5e7eb; padding-top: 6px;">&#10003; <%= section["verdict"] %></div>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Hidden Concerns %>
+<% if @result["hidden_concerns"]&.any? %>
+  <div class="section">
+    <h2>Hidden Concerns</h2>
+    <% @result["hidden_concerns"].each do |c| %>
+      <div class="flag">&#9888; <%= c %></div>
+    <% end %>
+  </div>
+<% end %>
