@@ -1,0 +1,19 @@
+title = "Garageview secret scanning"
+[extend]
+useDefault = true
+
+# Restrict exceptions to the exact non-secret code that the generic rule flags.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Translation lookup values, not API keys"
+condition = "AND"
+paths = ['(?:^|/)app/javascript/pages/LandingPage\.tsx$']
+regexTarget = "secret"
+regexes = ['^landing\.section[1-4](Label|Title|Desc|Desc2)$']
+[[rules.allowlists]]
+description = "Ruby token expiry expression, not a token value"
+condition = "AND"
+paths = ['(?:^|/)app/models/collection_member\.rb$']
+regexTarget = "secret"
+regexes = ['^7\.days\.from_now$']

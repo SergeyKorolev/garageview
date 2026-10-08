@@ -1,0 +1,4 @@
+# The scraper queue is served by its own capsule (config/initializers/sidekiq.rb)
+:concurrency: 5
+:queues:
+  - default

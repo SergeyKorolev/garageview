@@ -1,0 +1,10 @@
+{{ define "main" }}
+<section class="intro"><span class="eyebrow">{{ i18n "eyebrow" }}</span><h1>{{ .Title }}</h1><p>{{ .Description }}</p><div class="sources"><span>mobile.de</span><span>AutoScout24</span><span>Otomoto</span></div></section>
+<section class="cards" aria-label="{{ .Title }}">{{ range .RegularPages.ByWeight }}
+  <article class="card">
+    {{ with .Params.image }}{{ $image := resources.Get . | resources.Copy (printf "guides-assets/%s" (path.Base .)) | fingerprint }}<img class="card-image" src="{{ $image.RelPermalink }}" alt="" width="1200" height="640" loading="lazy">{{ end }}
+    <span class="number">{{ printf "%02d" .Weight }} · {{ .ReadingTime }} {{ i18n "minutes" }}</span>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2><p>{{ .Description }}</p><span class="read">{{ i18n "read" }} <span aria-hidden="true">→</span></span>
+  </article>
+{{ end }}</section>
+{{ end }}

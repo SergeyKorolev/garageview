@@ -1,0 +1,44 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+en:
+  hello: "Hello world"
+  invitations:
+    accepting: "Accepting invitation..."
+    expired_title: "Invitation Expired"
+    expired_body: "This invitation has expired. Please ask the collection owner to send a new one."
+    already_accepted_title: "Already Accepted"
+    already_accepted_body: "This invitation has already been accepted."
+    not_found_title: "Collection Not Found"
+    not_found_body: "The collection associated with this invitation no longer exists."
+    invalid_title: "Invalid Link"
+    invalid_body: "This invitation link is not valid. Please check the link and try again."
+    email_mismatch_body: "This invitation was sent to %{email}. Please sign in with that email to accept it."
+    go_home: "Go Home"
+    open_collection: "Open Collection"

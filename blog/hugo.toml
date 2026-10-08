@@ -1,0 +1,32 @@
+baseURL = 'https://garageview.ai/'
+title = 'Garageview.ai'
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = true
+disableKinds = ['taxonomy', 'term', 'RSS', 'sitemap', 'robotsTXT']
+[markup.goldmark.renderer]
+unsafe = false
+[outputs]
+home = ['HTML']
+section = ['HTML']
+page = ['HTML']
+[languages.en]
+label = 'English'
+weight = 1
+[languages.de]
+label = 'Deutsch'
+weight = 2
+[languages.fr]
+label = 'Français'
+weight = 3
+[languages.es]
+label = 'Español'
+weight = 4
+[languages.it]
+label = 'Italiano'
+weight = 5
+[languages.pl]
+label = 'Polski'
+weight = 6
+[languages.uk]
+label = 'Українська'
+weight = 7

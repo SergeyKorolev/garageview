@@ -1,0 +1,55 @@
+<div style="min-height: 100vh; background-color: #ffffff; display: flex; flex-direction: column;">
+  <div style="max-width: 720px; margin: 0 auto; padding: 48px 24px; flex: 1;">
+    <a href="/<%= @locale %>" style="display: inline-block; margin-bottom: 32px;">
+      <img src="/logo.png?v=3" alt="garageview.ai" style="height: 28px;" />
+    </a>
+
+    <h1 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 8px;">Chrome Extension</h1>
+    <p style="font-size: 15px; color: #6b7280; margin-bottom: 32px; line-height: 1.6;">
+      Save cars directly from mobile.de to your Garageview workspace with one click.
+    </p>
+
+    <%# Add to Chrome button %>
+    <a href="https://chromewebstore.google.com/detail/garageviewai-%E2%80%94-your-ai-ca/ibifmbahobechmjhbpjbnieeladcgece" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 16px; font-weight: 600; color: white; background-color: #3b82f6; border: none; border-radius: 10px; text-decoration: none; margin-bottom: 40px;">
+      <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="0"/><path d="M12 2a10 10 0 00-8.66 5h5.66l3-5.2A10 10 0 0012 2z" fill="#EA4335"/><path d="M3.34 7A10 10 0 002 12a10 10 0 005 8.66l2.83-4.9L6.34 7H3.34z" fill="#FBBC05"/><path d="M7 20.66A10 10 0 0012 22a10 10 0 008.66-5H15l-3 5.2a10 10 0 01-5-1.54z" fill="#34A853"/><path d="M20.66 17A10 10 0 0022 12a10 10 0 00-5-8.66l-2.83 4.9L17.66 17h3z" fill="#4285F4"/><circle cx="12" cy="12" r="4" fill="white"/><circle cx="12" cy="12" r="3.2" fill="#4285F4"/></svg>
+      Add to Chrome
+    </a>
+
+    <div style="font-size: 15px; line-height: 1.8; color: #374151;">
+      <h2 style="font-size: 20px; font-weight: 600; color: #111827; margin-bottom: 16px;">How It Works</h2>
+
+      <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+        <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background-color: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-top: 2px;">1</div>
+        <div style="flex: 1; padding-top: 4px;">Click <strong>"Add to Chrome"</strong> above and confirm the installation.</div>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+        <div style="flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background-color: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; margin-top: 2px;">2</div>
+        <div style="flex: 1; padding-top: 4px;">Visit any car listing on <strong>mobile.de</strong> — you'll see "Save to Garageview" buttons on each listing.</div>
+      </div>
+
+      <div style="margin-top: 32px; padding: 20px; background-color: #f9fafb; border-radius: 10px; border: 1px solid #e5e7eb;">
+        <p style="font-size: 14px; color: #6b7280; margin: 0;">
+          Available on the <a href="https://chromewebstore.google.com/detail/garageviewai-%E2%80%94-your-ai-ca/ibifmbahobechmjhbpjbnieeladcgece" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">Chrome Web Store</a>. For questions, contact <a href="mailto:support@garageview.ai" style="color: #3b82f6; text-decoration: none;">support@garageview.ai</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <%# Footer %>
+  <footer style="border-top: 1px solid #e5e7eb; padding: 32px 24px; text-align: center; background-color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-bottom: 16px;">
+      <% PagesHelper::SUPPORTED_LOCALES.each do |loc| %>
+        <a href="/<%= loc[:code] %>/extension" style="font-size: 12px; text-decoration: none; color: <%= loc[:code] == @locale ? '#3b82f6' : '#6b7280' %>; font-weight: <%= loc[:code] == @locale ? '600' : '400' %>;">
+          <%= loc[:label] %>
+        </a>
+      <% end %>
+    </div>
+    <div style="font-size: 13px; color: #6b7280;">
+      <a href="/<%= @locale %>" style="color: #6b7280; text-decoration: none;">garageview.ai</a>
+      &middot; <a href="/<%= @locale %>/privacy" style="color: #6b7280; text-decoration: none;">Privacy</a>
+      &middot; <a href="/<%= @locale %>/terms" style="color: #6b7280; text-decoration: none;">Terms</a>
+      &middot; <a href="mailto:support@garageview.ai" style="color: #6b7280; text-decoration: none;">support@garageview.ai</a>
+    </div>
+  </footer>
+</div>

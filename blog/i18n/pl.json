@@ -1,0 +1,50 @@
+{
+  "guides": {
+    "other": "Poradniki zakupu samochodu"
+  },
+  "eyebrow": {
+    "other": "Znajdź. Zbierz. Wybierz."
+  },
+  "start": {
+    "other": "Otwórz Garageview"
+  },
+  "read": {
+    "other": "Czytaj poradnik"
+  },
+  "skip": {
+    "other": "Przejdź do treści"
+  },
+  "languages": {
+    "other": "Języki"
+  },
+  "footer": {
+    "other": "Twoje poszukiwania auta w jednym miejscu."
+  },
+  "ctaTitle": {
+    "other": "Zbierz kandydatów w jednym miejscu"
+  },
+  "ctaText": {
+    "other": "Zapisuj ogłoszenia z mobile.de, AutoScout24 i Otomoto w kolekcjach Garageview, a potem porównuj istotne szczegóły i otwarte pytania."
+  },
+  "editorial": {
+    "other": "Publikacja Garageview.ai, z pomocą AI przy redakcji i tłumaczeniu. Poradniki opisują proponowany przez nas proces wyboru; nie są oględzinami pojazdów ani niezależnym rankingiem portali."
+  },
+  "related": {
+    "other": "Czytaj dalej"
+  },
+  "updated": {
+    "other": "Aktualizacja"
+  },
+  "minutes": {
+    "other": "min czytania"
+  },
+  "takeaways": {
+    "other": "Czego się dowiesz"
+  },
+  "contents": {
+    "other": "Na tej stronie"
+  },
+  "examples": {
+    "other": "Przykłady są fikcyjne. Wypełnij szablony własnymi ogłoszeniami i ofertami; podane kwoty nie są cenami rynkowymi."
+  }
+}

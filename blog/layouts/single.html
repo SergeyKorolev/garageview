@@ -1,0 +1,19 @@
+{{ define "main" }}
+<article class="post">
+  <a class="back" href="/{{ .Language.Lang }}/guides/">← {{ i18n "guides" }}</a>
+  <div class="eyebrow">{{ i18n "eyebrow" }}</div>
+  <h1>{{ .Title }}</h1>
+  <p class="lede">{{ .Description }}</p>
+  <div class="byline">Garageview.ai · {{ i18n "updated" }} <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod | time.Format ":date_long" }}</time> · {{ .ReadingTime }} {{ i18n "minutes" }}</div>
+  {{ with .Params.image }}
+    {{ $image := resources.Get . | resources.Copy (printf "guides-assets/%s" (path.Base .)) | fingerprint }}
+    <figure class="article-figure"><img src="{{ $image.RelPermalink }}" alt="{{ $.Params.imageAlt }}" width="1200" height="640" fetchpriority="high"><figcaption>{{ $.Params.imageCaption }}</figcaption></figure>
+  {{ end }}
+  {{ with .Params.takeaways }}<aside class="takeaways"><h2>{{ i18n "takeaways" }}</h2><ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul></aside>{{ end }}
+  <p class="editorial">{{ i18n "examples" }}</p>
+  <details class="contents"><summary>{{ i18n "contents" }}</summary>{{ .TableOfContents }}</details>
+  <div class="prose">{{ .Content }}</div>
+<aside class="cta"><h2>{{ i18n "ctaTitle" }}</h2><p>{{ i18n "ctaText" }}</p><a class="button" href="/collections">{{ i18n "start" }} →</a></aside>
+<p class="editorial">{{ i18n "editorial" }}</p>
+<nav class="related" aria-label="{{ i18n "related" }}"><h2>{{ i18n "related" }}</h2>{{ range first 3 (where .CurrentSection.RegularPages.ByWeight "RelPermalink" "ne" .RelPermalink) }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}</nav>
+</article>{{ end }}

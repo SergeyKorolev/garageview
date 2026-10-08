@@ -1,0 +1,160 @@
+<div style="min-height: 100vh; background-color: #0b1120; color: #e5e7eb;">
+  <%# Header %>
+  <header style="padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; max-width: 800px; margin: 0 auto;">
+    <a href="/" style="text-decoration: none;">
+      <img src="/logo-dark.png?v=3" alt="GarageView.ai" style="height: 36px; width: auto;" />
+    </a>
+    <a href="/en" style="font-size: 13px; color: #22c55e; text-decoration: none; font-weight: 600; padding: 8px 20px; border: 1px solid #22c55e; border-radius: 8px;">
+      <%= @ui[:compare_cars] %>
+    </a>
+  </header>
+
+  <main style="max-width: 800px; margin: 0 auto; padding: 20px 24px 80px;">
+    <%# Hero photo %>
+    <% if @car.photos&.first %>
+      <div style="border-radius: 12px; overflow: hidden; margin-bottom: 24px; aspect-ratio: 16/10; background-color: #1f2937;">
+        <img src="<%= @car.photos.first %>" alt="" style="width: 100%; height: 100%; object-fit: cover;" />
+      </div>
+    <% end %>
+
+    <%# Title + Price %>
+    <div style="margin-bottom: 20px;">
+      <h1 style="font-size: 24px; font-weight: 800; color: white; margin: 0 0 8px; line-height: 1.2;">
+        <%= @car.title %>
+      </h1>
+      <div style="font-size: 28px; font-weight: 800; color: #60a5fa;">
+        <%= @car.price_cents ? number_to_currency(@car.price_cents / 100.0, unit: "\u20AC", precision: 0, format: "%n %u") : "" %>
+      </div>
+    </div>
+
+    <%# Key specs %>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+      <% specs = [
+        @car.mileage_km ? "#{number_with_delimiter(@car.mileage_km)} km" : nil,
+        @car.first_registration.present? ? @car.first_registration : nil,
+        @car.power_kw ? "#{@car.power_kw} kW (#{(@car.power_kw * 1.36).round} PS)" : nil,
+        @car.fuel_type.present? ? @car.fuel_type : nil,
+        @car.transmission.present? ? @car.transmission : nil
+      ].compact %>
+      <% specs.each do |spec| %>
+        <span style="padding: 4px 12px; border-radius: 6px; background-color: #1f2937; font-size: 13px; color: #d1d5db;"><%= spec %></span>
+      <% end %>
+    </div>
+
+    <%# Seller %>
+    <% if @car.seller_name.present? %>
+      <div style="padding: 12px 16px; border-radius: 10px; border: 1px solid #1f2937; margin-bottom: 24px;">
+        <div style="font-size: 14px; font-weight: 600; color: #e5e7eb;"><%= @car.seller_name %></div>
+        <% if @car.seller_address.present? %>
+          <div style="font-size: 12px; color: #6b7280; margin-top: 2px;"><%= @car.seller_address %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# AI Analysis %>
+    <% if @ai_analysis.present? && @ai_analysis["summary"].present? %>
+      <div style="margin-bottom: 28px;">
+        <h2 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:ai_analysis] %></h2>
+        <div style="font-size: 14px; color: #d1d5db; line-height: 1.7; margin-bottom: 16px;"><%= @ai_analysis["summary"] %></div>
+
+        <%# Pros / Cons %>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
+          <% if @ai_analysis["pros"]&.any? %>
+            <div style="flex: 1 1 250px; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: #22c55e; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;"><%= @ui[:strengths] %></div>
+              <% @ai_analysis["pros"].each do |pro| %>
+                <div style="font-size: 13px; color: #34d399; margin-bottom: 4px;">+ <%= pro %></div>
+              <% end %>
+            </div>
+          <% end %>
+          <% if @ai_analysis["cons"]&.any? %>
+            <div style="flex: 1 1 250px; min-width: 0;">
+              <div style="font-size: 12px; font-weight: 700; color: #ef4444; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;"><%= @ui[:weaknesses] %></div>
+              <% @ai_analysis["cons"].each do |con| %>
+                <div style="font-size: 13px; color: #f87171; margin-bottom: 4px;">&minus; <%= con %></div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Red flags %>
+        <% if @ai_analysis["red_flags"]&.any? %>
+          <div style="margin-bottom: 16px;">
+            <% @ai_analysis["red_flags"].each do |flag| %>
+              <div style="font-size: 13px; color: #fbbf24; margin-bottom: 4px;">&#9888; <%= flag %></div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%# Negotiation points %>
+        <% if @ai_analysis["negotiation_points"]&.any? %>
+          <div style="margin-bottom: 16px;">
+            <div style="font-size: 12px; font-weight: 700; color: #9ca3af; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;"><%= @ui[:negotiation_leverage] %></div>
+            <% @ai_analysis["negotiation_points"].each do |point| %>
+              <div style="font-size: 13px; color: #d1d5db; margin-bottom: 4px;">&bull; <%= point %></div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%# Test drive checklist %>
+        <% if @ai_analysis["test_drive_checklist"]&.any? %>
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: #9ca3af; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;"><%= @ui[:test_drive_checklist] %></div>
+            <% @ai_analysis["test_drive_checklist"].each do |item| %>
+              <div style="font-size: 13px; color: #d1d5db; margin-bottom: 4px;">&#9744; <%= item %></div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# Technical specs %>
+    <% if @attributes.any? %>
+      <div style="margin-bottom: 28px;">
+        <h2 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:technical_specs] %></h2>
+        <div style="border-radius: 10px; border: 1px solid #1f2937; overflow: hidden;">
+          <% @attributes.first(20).each_with_index do |(key, value), i| %>
+            <div style="display: flex; padding: 8px 14px; border-bottom: <%= i < [@attributes.size, 20].min - 1 ? '1px solid #1f2937' : 'none' %>; background-color: <%= i.odd? ? '#0d1117' : 'transparent' %>;">
+              <div style="flex: 0 0 40%; font-size: 12px; color: #6b7280;"><%= key %></div>
+              <div style="flex: 1; font-size: 12px; color: #d1d5db;"><%= value %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Features %>
+    <% if @features.any? %>
+      <div style="margin-bottom: 28px;">
+        <h2 style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937;"><%= @ui[:equipment] %> (<%= @features.size %>)</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <% @features.each do |feature| %>
+            <span style="padding: 4px 10px; border-radius: 6px; background-color: #1f2937; font-size: 12px; color: #d1d5db;"><%= feature %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# CTA %>
+    <div style="margin-top: 48px; text-align: center; padding: 40px 24px; border-radius: 16px; border: 1px solid #1f2937; background: linear-gradient(135deg, rgba(34,197,94,0.05), rgba(37,99,235,0.05));">
+      <div style="font-size: 24px; font-weight: 800; color: white; margin-bottom: 10px;">
+        <%= @ui[:compare_cars] %>
+      </div>
+      <div style="font-size: 15px; color: #9ca3af; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto;">
+        <%= @ui[:compare_cars_desc] %>
+      </div>
+      <a href="/en" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; font-size: 16px; font-weight: 600; color: white; background-color: #22c55e; border: none; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 24px rgba(34,197,94,0.3);">
+        <%= @ui[:get_started] %>
+      </a>
+    </div>
+  </main>
+
+  <%# Footer %>
+  <footer style="padding: 24px; text-align: center; border-top: 1px solid #1f2937;">
+    <div style="font-size: 12px; color: #6b7280;">
+      garageview.ai &middot; <%= @ui[:built_with] %> &middot;
+      <a href="/en/privacy" style="color: #6b7280; text-decoration: underline;">Privacy</a> &middot;
+      <a href="/en/terms" style="color: #6b7280; text-decoration: underline;">Terms</a>
+    </div>
+  </footer>
+</div>

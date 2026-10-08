@@ -1,0 +1,4 @@
+web: env RUBY_DEBUG_OPEN=true bin/rails server
+js: node esbuild.config.mjs --watch
+css: npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --watch
+worker: bundle exec sidekiq

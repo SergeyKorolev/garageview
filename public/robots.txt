@@ -1,0 +1,11 @@
+# Garageview.ai robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /sidekiq/
+Disallow: /users/
+
+Sitemap: https://garageview.ai/sitemap.xml
+
+Sitemap: https://garageview.ai/guides-sitemap.xml
