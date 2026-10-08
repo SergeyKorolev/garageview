@@ -25,7 +25,7 @@ gem "omniauth-rails_csrf_protection"
 # Background jobs
 gem "sidekiq", "~> 7.0"
 gem "sidekiq-cron"
-gem "connection_pool", "~> 2.4"
+gem "connection_pool", "~> 3.0"
 
 # HTTP client
 gem "httparty"
