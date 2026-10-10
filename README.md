@@ -1,10 +1,10 @@
-# Garageview
+# [Garageview.ai](https://garageview.ai)
 
 **Let’s build the best platform for comparing and choosing cars—together.**
 
 Collect new and used car listings from **mobile.de, AutoScout24 and Otomoto** in one place. Compare your shortlist and choose with more confidence.
 
-[Try Garageview](https://garageview.ai) · [Buying guides](https://garageview.ai/en/guides/) · [Share an idea](https://github.com/SergeyKorolev/garageview/discussions)
+[Try Garageview](https://garageview.ai) · [Watch demo](https://www.youtube.com/watch?v=-SxWbA7cpR4) · [Buying guides](https://garageview.ai/en/guides/) · [Share an idea](https://github.com/SergeyKorolev/garageview/discussions)
 
 ## What you can do
 
