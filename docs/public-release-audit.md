@@ -2,7 +2,7 @@
 
 ## Scope and result
 
-Prepared a new Git repository from the current application, with no parent commits, tags, old pull-request references or deployment secrets. The original repository remains private. This is a preparation snapshot, not a declaration that the repository is public or licensed for open-source use.
+Prepared a new Git repository from the current application, with no parent commits, tags, old pull-request references or deployment secrets. The original repository remains private. The repository remains private. On 2026-10-10, the owner selected the MIT License, now included in LICENSE with matching README and contribution terms.
 
 Gitleaks 8.30.1 with its default rules scanned the original fetched branches, tags and 44 pull-request heads (264 reachable commits). Initial findings were translation keys, a Ruby token-expiry expression and an unused generated Devise key in a comment. The comment was removed from the new snapshot. Two narrowly scoped rule exceptions cover only the exact non-secret translation values and Ruby expression; there are no blanket path exclusions or secret baselines.
 
@@ -33,6 +33,6 @@ The source snapshot scan reported zero findings. Encrypted production credential
 
 ## Before changing visibility
 
-Select and install the owner's chosen license. Confirm rights to artwork and third-party material described in NOTICE.md. Run the remote workflows on the exact initial commit and enable GitHub private vulnerability reporting, secret scanning, push protection and branch protection where the account supports them. On the new private repository, GitHub returned HTTP 403 for branch protection, HTTP 422 for built-in secret scanning, and HTTP 404 for private vulnerability reporting. Re-check these features after changing visibility. Gitleaks CI is active, Discussions are enabled, and the new repository has no Actions secrets.
+License selection is complete: MIT (2026-10-10). Confirm rights to artwork and third-party material described in NOTICE.md. Run the remote workflows on the exact initial commit and enable GitHub private vulnerability reporting, secret scanning, push protection and branch protection where the account supports them. On the new private repository, GitHub returned HTTP 403 for branch protection, HTTP 422 for built-in secret scanning, and HTTP 404 for private vulnerability reporting. Re-check these features after changing visibility. Gitleaks CI is active, Discussions are enabled, and the new repository has no Actions secrets.
 
 Do not migrate production secrets, old branches, tags, PRs, Actions logs, customer data or private notes into the new repository. No public visibility change is included in this preparation.

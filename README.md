@@ -86,4 +86,4 @@ Report vulnerabilities privately using [SECURITY.md](SECURITY.md). Please do not
 
 ## License
 
-The release license is pending the owner's selection. Until a LICENSE file is added, this preparation snapshot does not grant an open-source license. Third-party dependencies retain their own licenses.
+Garageview is licensed under the [MIT License](LICENSE). You may use, modify, distribute and sell copies subject to its terms, including preserving the copyright and license notice. Third-party dependencies and material retain their own rights; see [NOTICE.md](NOTICE.md).

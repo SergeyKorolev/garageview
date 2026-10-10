@@ -4,4 +4,4 @@ Dependencies retain their own licenses. Marketplace names and logos identify int
 
 The screenshots under `public/screens/` include marketplace listing examples and photographs. They are not synthetic fixtures or a dataset offered for redistribution. Confirm appropriate permissions for their intended reuse; do not treat the software license as a license to that material. The original explanatory SVGs under `blog/assets/illustrations/` do not depict actual listings.
 
-Before the public release, the owner must select the project license and confirm rights to included artwork and contributions. No license selection is inferred from this notice.
+Garageview project code and original project documentation are licensed under the MIT License; see LICENSE. That license does not grant trademark rights or override the rights of third parties described above. Independent forks must not misrepresent themselves as the official Garageview service.

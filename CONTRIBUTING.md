@@ -25,3 +25,7 @@ Accessibility, clear import failures, marketplace parser fixtures, translations,
 ## Working together
 
 Be respectful and specific. Critique code and ideas, not people. Harassment, discriminatory language, sharing others' private information and spam are not welcome. Maintainers may moderate discussions or close contributions that do not follow these expectations. Report conduct concerns through the private contact described in SECURITY.md.
+
+## Contribution license
+
+By submitting a contribution for inclusion in Garageview, you agree to license it under the project's [MIT License](LICENSE). You retain copyright in your contribution; no copyright assignment is required. Only submit work you have the right to contribute, and identify any third-party material and its license.
