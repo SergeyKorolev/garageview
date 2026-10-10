@@ -1,6 +1,10 @@
 # Contributing to Garageview
 
-Start with the README setup and choose a small issue. For larger changes, explain the user problem and proposed approach in an issue before implementation. Maintainers decide scope and review contributions; production access is not required.
+Help build the best platform for comparing and choosing cars. Whether you are searching for your next car or improving the software, your experience can help other buyers.
+
+Share ideas and car-buying workflows in [Discussions](https://github.com/SergeyKorolev/garageview/discussions), report reproducible problems in [Issues](https://github.com/SergeyKorolev/garageview/issues), or contribute code, design, translations and documentation. No coding experience is needed to share useful feedback.
+
+For code contributions, start with the README setup and a focused improvement. For larger changes, explain the user problem and proposed approach in a discussion before implementation. Maintainers review contributions; production access is not required.
 
 ## Your first pull request
 
@@ -20,7 +24,7 @@ PR CI runs without production credentials. Do not add `pull_request_target` work
 
 ## Useful contributions
 
-Accessibility, clear import failures, marketplace parser fixtures, translations, test coverage for meaningful edge cases, and documentation from a fresh-install experience are particularly useful. See ROADMAP.md for scoped starting points. Contributions generated with AI receive the same review and testing requirements as any other work; check correctness and rights to included material.
+Accessibility, clear import failures, marketplace parser fixtures, translations, test coverage for meaningful edge cases, and documentation from a fresh-install experience are particularly useful. Choose an improvement that matters to you and explain how it helps car buyers. Contributions generated with AI receive the same review and testing requirements as any other work; check correctness and rights to included material.
 
 ## Working together
 

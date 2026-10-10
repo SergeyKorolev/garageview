@@ -2,7 +2,7 @@
 
 A car-buying workspace for collecting new and used car listings, comparing a shortlist, and preparing questions with AI assistance.
 
-[Try Garageview](https://garageview.ai) · [Buying guides](https://garageview.ai/en/guides/) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md)
+[Try Garageview](https://garageview.ai) · [Buying guides](https://garageview.ai/en/guides/) · [Contributing](CONTRIBUTING.md)
 
 ## What it does
 
@@ -13,6 +13,14 @@ A car-buying workspace for collecting new and used car listings, comparing a sho
 - Use the interface and buying guides in English, German, French, Spanish, Italian, Polish and Ukrainian.
 
 Garageview is an independent project, not affiliated with these marketplaces. Listings and third-party services remain subject to their owners' terms.
+
+## Help build the best platform for comparing and choosing cars
+
+Garageview is open to everyone who wants to make choosing a new or used car easier. Bring your experience as a car buyer, developer, designer or translator and help improve the platform together.
+
+Share an idea in [Discussions](https://github.com/SergeyKorolev/garageview/discussions), [report a problem](https://github.com/SergeyKorolev/garageview/issues), or contribute an improvement through a pull request. Code, design, translations, documentation and feedback from real car searches are all welcome. You do not need to write code to contribute.
+
+Read the [contribution guide](CONTRIBUTING.md) to get started. For substantial changes, open a discussion first so others can help shape the approach.
 
 ## Local development
 

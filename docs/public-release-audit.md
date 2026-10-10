@@ -12,7 +12,7 @@ The source snapshot scan reported zero findings. Encrypted production credential
 
 ## Contributor preparation
 
-- Replaced the placeholder README; added CONTRIBUTING, SECURITY, issue/PR templates and scoped roadmap tasks.
+- Replaced the placeholder README; added CONTRIBUTING, SECURITY, issue/PR templates and an invitation to contribute code, design, translations, documentation and car-buying feedback.
 - Added fictional, idempotent demo listings that need no scraper or AI credentials.
 - Removed the fixed development admin password; made admin creation explicitly opt-in.
 - Fixed setup to use the npm lockfile; bound local Compose services to loopback.
