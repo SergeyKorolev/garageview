@@ -246,8 +246,8 @@ export default function LandingPage() {
             <ChromeIcon />
             {t("landing.addToChrome")}
           </a>
-          <a href={`/${currentLocale}/guides/`} style={{ display: "inline-block", padding: "14px 28px", border: "1px solid #60a5fa", borderRadius: 12, color: "#eff6ff", backgroundColor: "#172554", fontSize: 16, fontWeight: 600, textDecoration: "none" }}>
-            {t("landing.guides")}
+          <a href="https://www.youtube.com/watch?v=-SxWbA7cpR4" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", padding: "14px 28px", border: "1px solid #60a5fa", borderRadius: 12, color: "#eff6ff", backgroundColor: "#172554", fontSize: 16, fontWeight: 600, textDecoration: "none" }}>
+            {t("landing.watchVideo")}
           </a>
         </div>
         <p style={{ maxWidth: 680, margin: "20px 0 0", fontSize: 13, lineHeight: 1.6, color: "#9ca3af" }}>{t("landing.importNote")}</p>

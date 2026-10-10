@@ -25,9 +25,10 @@ RSpec.describe "Localized landing pages", type: :request do
       end
       expect(html.text).to include(copy.fetch("importNote"))
       expect(html.at_css('meta[name="keywords"]')).to be_nil
-      guides_link = html.at_css("section a[href='/#{locale}/guides/']")
-      expect(guides_link.text).to eq(copy.fetch("guides"))
-      expect(guides_link.parent.at_css('a[href*="chromewebstore.google.com"]')).to be_present
+      video_link = html.at_css('section a[href="https://www.youtube.com/watch?v=-SxWbA7cpR4"]')
+      expect(video_link.text).to eq(copy.fetch("watchVideo"))
+      expect(video_link.parent.at_css('a[href*="chromewebstore.google.com"]')).to be_present
+      expect(html.at_css("footer a[href='/#{locale}/guides/']").text).to eq(copy.fetch("guides"))
     end
   end
 
