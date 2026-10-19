@@ -31,6 +31,33 @@ Bring your ideas, code, design skills, translations or car-buying experience. Yo
 
 [Report a problem](https://github.com/SergeyKorolev/garageview/issues), join a discussion, or open a pull request. See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
 
+## Tech stack
+
+- **Backend:** Rails 8.0, Ruby 3.3.10, PostgreSQL 16, Redis 7, Sidekiq
+- **Frontend:** React 19, TypeScript, React Router, Zustand, TanStack Query, Tailwind CSS 4
+- **Build:** esbuild (JS/TS), Tailwind CLI (CSS)
+- **Auth:** Devise + Google OAuth2
+- **AI:** OpenAI (gpt-4o, gpt-4o-mini)
+- **Transactional email:** [Mailtrap](https://mailtrap.io) Email Sending API with hosted templates (see below)
+- **Chrome extension:** Manifest V3, content scripts on mobile.de
+- **Deploy:** Kamal 2, Docker
+
+### Email sending with Mailtrap templates
+
+Transactional email goes through the Mailtrap Email Sending API using the official [`mailtrap` gem](https://github.com/railsware/mailtrap-ruby). Emails are not rendered in the app: each message is a Mailtrap-hosted template referenced by UUID, with variables filled in at send time, so copy and design changes never require a deploy. The integration lives in [`app/services/mailtrap_email_service.rb`](app/services/mailtrap_email_service.rb) and sends the welcome, collection invite and account deleted emails via `Mailtrap::Mail::FromTemplate`:
+
+```ruby
+mail = Mailtrap::Mail::FromTemplate.new(
+  from: { email: FROM_EMAIL, name: FROM_NAME },
+  to: [{ email: user.email, name: user.name }],
+  template_uuid: ENV["MAILTRAP_WELCOME_TEMPLATE_UUID"],
+  template_variables: { "user_name" => user.name, "app_url" => APP_URL }
+)
+Mailtrap::Client.new(api_key: ENV["MAILTRAP_API_TOKEN"]).send(mail)
+```
+
+In production the client delivers for real with `MAILTRAP_API_TOKEN`; in development it runs in sandbox mode, so emails land in a Mailtrap testing inbox instead of real mailboxes. Missing template UUIDs or API token are logged and skipped, never raised, so email can't break a signup or invite flow.
+
 ## Run locally
 
 Requires Ruby **3.3.10**, Node **24.14.0**, Docker Compose and native build tools.
