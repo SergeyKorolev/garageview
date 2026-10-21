@@ -20,6 +20,14 @@ export default function Footer() {
               {t("privacy.cookieSettings")}
             </button>
             <Link to="/terms" className="hover:underline">Terms</Link>
+            <a
+              href="https://github.com/SergeyKorolev/garageview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              GitHub
+            </a>
             <span>&copy; {year}</span>
           </div>
         </div>
