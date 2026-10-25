@@ -219,7 +219,11 @@
   "map": {
     "title": "Розташування автомобілів",
     "travelTime": "Час подорожі",
-    "distance": "Відстань"
+    "distance": "Відстань",
+    "carsAtLocation_one": "{{count}} автомобіль у цьому місці",
+    "carsAtLocation_few": "{{count}} автомобілі у цьому місці",
+    "carsAtLocation_many": "{{count}} автомобілів у цьому місці",
+    "carsAtLocation_other": "{{count}} автомобіля у цьому місці"
   },
   "privacy": {
     "cookieSettings": "Налаштування cookie"

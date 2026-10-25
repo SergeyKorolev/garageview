@@ -219,7 +219,9 @@
   "map": {
     "title": "Autostandorte",
     "travelTime": "Reisezeit",
-    "distance": "Entfernung"
+    "distance": "Entfernung",
+    "carsAtLocation_one": "{{count}} Auto an diesem Standort",
+    "carsAtLocation_other": "{{count}} Autos an diesem Standort"
   },
   "privacy": {
     "cookieSettings": "Cookie-Einstellungen"

@@ -1,10 +1,12 @@
-import { useCallback, useRef, useEffect } from "react";
+import { useCallback, useRef, useEffect, useState } from "react";
 import Map, { Marker, Popup, NavigationControl, type MapRef } from "react-map-gl/maplibre";
+import { useTranslation } from "react-i18next";
 import type { Car } from "@/types/car";
 import { useSelectionStore } from "@/stores/selectionStore";
 import { useThemeStore } from "@/stores/themeStore";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useFormatPrice } from "@/hooks/useFormatPrice";
+import { groupCarsByLocation } from "@/utils/groupCarsByLocation";
 import { cn } from "@/utils/cn";
 
 interface MapViewProps {
@@ -49,18 +51,55 @@ function CarPin({ photo, selected, hovered }: { photo?: string; selected: boolea
   );
 }
 
+function ClusterPin({ photo, count, selected, hovered }: { photo?: string; count: number; selected: boolean; hovered?: boolean }) {
+  return (
+    <div style={{ position: "relative" }}>
+      <CarPin photo={photo} selected={selected} hovered={hovered} />
+      <div
+        style={{
+          position: "absolute",
+          top: -8,
+          right: -10,
+          minWidth: 20,
+          height: 20,
+          borderRadius: 10,
+          backgroundColor: "#2563eb",
+          color: "white",
+          fontSize: 11,
+          fontWeight: 700,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "0 5px",
+          border: "2px solid white",
+          boxShadow: "0 1px 4px rgba(0,0,0,0.3)",
+          zIndex: 11,
+          pointerEvents: "none",
+        }}
+      >
+        {count}
+      </div>
+    </div>
+  );
+}
+
 export default function MapView({ cars, onCarClick }: MapViewProps) {
   const mapRef = useRef<MapRef>(null);
+  const { t } = useTranslation();
   const { selectedCarId, setSelectedCarId, hoveredCarId } = useSelectionStore();
   const { data: user } = useCurrentUser();
   const theme = useThemeStore((s) => s.theme);
   const formatPrice = useFormatPrice();
   const isDark = theme === "dark";
   const hasFitted = useRef(false);
+  const [openGroupKey, setOpenGroupKey] = useState<string | null>(null);
 
   const carsWithCoords = cars.filter(
     (c) => c.seller_latitude != null && c.seller_longitude != null
   );
+
+  const locationGroups = groupCarsByLocation(carsWithCoords);
+  const openGroup = locationGroups.find((g) => g.key === openGroupKey && g.cars.length > 1);
 
   const selectedCar = carsWithCoords.find((c) => c.id === selectedCarId);
 
@@ -96,9 +135,18 @@ export default function MapView({ cars, onCarClick }: MapViewProps) {
 
   const handleMarkerClick = useCallback(
     (carId: number) => {
+      setOpenGroupKey(null);
       setSelectedCarId(selectedCarId === carId ? null : carId);
     },
     [setSelectedCarId, selectedCarId]
+  );
+
+  const handleClusterClick = useCallback(
+    (groupKey: string) => {
+      setSelectedCarId(null);
+      setOpenGroupKey((current) => (current === groupKey ? null : groupKey));
+    },
+    [setSelectedCarId]
   );
 
   return (
@@ -123,20 +171,116 @@ export default function MapView({ cars, onCarClick }: MapViewProps) {
         </Marker>
       )}
 
-      {carsWithCoords.map((car) => (
-        <Marker
-          key={car.id}
-          longitude={car.seller_longitude!}
-          latitude={car.seller_latitude!}
-          anchor="bottom"
-          onClick={(e) => {
-            e.originalEvent.stopPropagation();
-            handleMarkerClick(car.id);
-          }}
+      {locationGroups.map((group) => {
+        if (group.cars.length === 1) {
+          const car = group.cars[0];
+          return (
+            <Marker
+              key={group.key}
+              longitude={group.longitude}
+              latitude={group.latitude}
+              anchor="bottom"
+              onClick={(e) => {
+                e.originalEvent.stopPropagation();
+                handleMarkerClick(car.id);
+              }}
+            >
+              <CarPin photo={car.photos?.[0]} selected={car.id === selectedCarId} hovered={car.id === hoveredCarId} />
+            </Marker>
+          );
+        }
+
+        const containsSelected = group.cars.some((c) => c.id === selectedCarId);
+        const containsHovered = group.cars.some((c) => c.id === hoveredCarId);
+        return (
+          <Marker
+            key={group.key}
+            longitude={group.longitude}
+            latitude={group.latitude}
+            anchor="bottom"
+            onClick={(e) => {
+              e.originalEvent.stopPropagation();
+              handleClusterClick(group.key);
+            }}
+          >
+            <ClusterPin
+              photo={group.cars[0].photos?.[0]}
+              count={group.cars.length}
+              selected={containsSelected}
+              hovered={containsHovered}
+            />
+          </Marker>
+        );
+      })}
+
+      {openGroup && !selectedCar && (
+        <Popup
+          longitude={openGroup.longitude}
+          latitude={openGroup.latitude}
+          closeOnClick={false}
+          onClose={() => setOpenGroupKey(null)}
+          offset={[0, -45]}
+          maxWidth="260px"
         >
-          <CarPin photo={car.photos?.[0]} selected={car.id === selectedCarId} hovered={car.id === hoveredCarId} />
-        </Marker>
-      ))}
+          <div style={{ padding: 2 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 700, marginBottom: 6 }}
+              className="text-gray-900 dark:text-gray-900"
+            >
+              {t("map.carsAtLocation", { count: openGroup.cars.length })}
+            </div>
+            <div style={{ maxHeight: 220, overflowY: "auto", display: "flex", flexDirection: "column", gap: 4 }}>
+              {openGroup.cars.map((car) => (
+                <button
+                  key={car.id}
+                  type="button"
+                  onClick={() => {
+                    setOpenGroupKey(null);
+                    setSelectedCarId(car.id);
+                  }}
+                  className="rounded-md hover:bg-gray-100"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    padding: 4,
+                    textAlign: "left",
+                    cursor: "pointer",
+                    border: "none",
+                    background: "transparent",
+                    width: "100%",
+                  }}
+                >
+                  {car.photos?.[0] ? (
+                    <img
+                      src={car.photos[0]}
+                      alt=""
+                      style={{ width: 48, height: 36, objectFit: "cover", borderRadius: 4, flexShrink: 0 }}
+                    />
+                  ) : (
+                    <div
+                      style={{ width: 48, height: 36, borderRadius: 4, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#e5e7eb", fontSize: 14 }}
+                    >
+                      🚗
+                    </div>
+                  )}
+                  <div style={{ minWidth: 0 }}>
+                    <div
+                      style={{ fontSize: 11, fontWeight: 600, lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                      className="text-gray-900 dark:text-gray-900"
+                    >
+                      {car.title}
+                    </div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#2563eb" }}>
+                      {formatPrice(car.price_cents)}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </Popup>
+      )}
 
       {selectedCar && (
         <Popup
