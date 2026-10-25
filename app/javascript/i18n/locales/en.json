@@ -242,7 +242,9 @@
   "map": {
     "title": "Car Locations",
     "travelTime": "Travel time",
-    "distance": "Distance"
+    "distance": "Distance",
+    "carsAtLocation_one": "{{count}} car at this location",
+    "carsAtLocation_other": "{{count}} cars at this location"
   },
   "landing": {
     "hero": "Compare car listings in one place.",

@@ -219,7 +219,9 @@
   "map": {
     "title": "Posizioni delle auto",
     "travelTime": "Tempo di viaggio",
-    "distance": "Distanza"
+    "distance": "Distanza",
+    "carsAtLocation_one": "{{count}} auto in questa posizione",
+    "carsAtLocation_other": "{{count}} auto in questa posizione"
   },
   "privacy": {
     "cookieSettings": "Impostazioni cookie"
