@@ -11,21 +11,31 @@ export interface CarLocationGroup {
 // so markers at identical or near-identical dealer coordinates group together.
 const COORDINATE_PRECISION = 4;
 
+// The API serializes decimal columns as strings, so seller coordinates arrive
+// as strings at runtime despite the Car type declaring them as numbers.
+function toCoordinate(value: number | string | null | undefined): number | null {
+  if (value == null) return null;
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
 export function groupCarsByLocation(cars: Car[]): CarLocationGroup[] {
   const groups = new Map<string, CarLocationGroup>();
 
   for (const car of cars) {
-    if (car.seller_latitude == null || car.seller_longitude == null) continue;
+    const latitude = toCoordinate(car.seller_latitude);
+    const longitude = toCoordinate(car.seller_longitude);
+    if (latitude == null || longitude == null) continue;
 
-    const key = `${car.seller_latitude.toFixed(COORDINATE_PRECISION)},${car.seller_longitude.toFixed(COORDINATE_PRECISION)}`;
+    const key = `${latitude.toFixed(COORDINATE_PRECISION)},${longitude.toFixed(COORDINATE_PRECISION)}`;
     const existing = groups.get(key);
     if (existing) {
       existing.cars.push(car);
     } else {
       groups.set(key, {
         key,
-        longitude: car.seller_longitude,
-        latitude: car.seller_latitude,
+        longitude,
+        latitude,
         cars: [car],
       });
     }

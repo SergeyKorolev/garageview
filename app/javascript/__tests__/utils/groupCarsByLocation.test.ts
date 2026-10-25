@@ -49,4 +49,23 @@ describe("groupCarsByLocation", () => {
   it("returns an empty array for no cars", () => {
     expect(groupCarsByLocation([])).toEqual([]);
   });
+
+  it("handles string coordinates as returned by the API", () => {
+    // The API serializes decimal columns as strings despite the Car type.
+    const cars = [
+      makeCar(1, "51.4556" as unknown as number, "12.3731" as unknown as number),
+      makeCar(2, "51.4556" as unknown as number, "12.3731" as unknown as number),
+      makeCar(3, "48.1351" as unknown as number, "11.582" as unknown as number),
+    ];
+    const groups = groupCarsByLocation(cars);
+    expect(groups).toHaveLength(2);
+    expect(groups[0].cars.map((c) => c.id)).toEqual([1, 2]);
+    expect(groups[0].latitude).toBe(51.4556);
+    expect(groups[0].longitude).toBe(12.3731);
+  });
+
+  it("skips cars with non-numeric coordinate strings", () => {
+    const cars = [makeCar(1, "abc" as unknown as number, "12.3731" as unknown as number)];
+    expect(groupCarsByLocation(cars)).toEqual([]);
+  });
 });
