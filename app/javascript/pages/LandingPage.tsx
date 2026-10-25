@@ -371,6 +371,8 @@ export default function LandingPage() {
           {" · "}
           <a href={`/${currentLocale}/terms`} style={{ color: "#6b7280", textDecoration: "none" }} onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }} onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}>Terms</a>
           {" · "}
+          <a href="https://github.com/SergeyKorolev/garageview" target="_blank" rel="noopener noreferrer" style={{ color: "#6b7280", textDecoration: "none" }} onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }} onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}>GitHub</a>
+          {" · "}
           <a href="mailto:support@garageview.ai" style={{ color: "#6b7280", textDecoration: "none" }} onMouseEnter={(e) => { e.currentTarget.style.textDecoration = "underline"; }} onMouseLeave={(e) => { e.currentTarget.style.textDecoration = "none"; }}>support@garageview.ai</a>
         </div>
       </footer>
